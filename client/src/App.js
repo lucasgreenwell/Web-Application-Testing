@@ -1,26 +1,78 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import "./App.css";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Display from "./components/Display";
+import Dashboard from "./components/Dashboard";
+
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      balls: 0,
+      strikes: 0
+    };
+  }
+
+
+//lol
+  handleBalls = () => {
+    if (this.state.balls < 3) {
+      this.setState({
+        balls: this.state.balls + 1,
+        strikes: this.state.strikes
+      });
+    }
+    else {
+      this.setState({
+         balls: 0,
+        strikes: 0
+      })
+    }
+  };
+
+  handleStrikes = () => {
+    if( this.state.strikes < 2){
+      this.setState({
+        balls:this.state.balls,
+        strikes: this.state.strikes + 1
+      })
+    } else {
+      this.setState({
+         balls: 0,
+        strikes: 0
+      })
+    }
+  };
+
+  handleFouls = () => {
+    if(this.state.strikes < 2){
+      this.setState({
+         balls: this.state.balls,
+        strikes: this.state.strikes + 1
+      })
+    }
+  };
+
+  handleHits = () => {
+    this.setState({
+         balls: 0,
+        strikes: 0
+      })
+  };
+
+  render() {
+    return (
+      <div className="App">
+        <Display balls={this.state.balls} strikes={this.state.strikes} />
+        <Dashboard
+          handleBalls={this.handleBalls}
+          handleFouls={this.handleFouls}
+          handleHits={this.handleHits}
+          handleStrikes={this.handleStrikes}
+        />
+      </div>
+    );
+  }
 }
 
 export default App;
